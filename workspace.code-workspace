@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"react/node_modules/": true,
+			"react/src/*.d.ts": true,
+			"react/server.js": true,
+		},
+	}
+}
