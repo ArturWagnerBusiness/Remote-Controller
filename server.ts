@@ -4,16 +4,6 @@ import * as session from 'express-session';
 import * as path from 'path';
 const app = express();
 
-/*
-var mysql = require('mysql');
-var connection = mysql.createConnection({
-	host     : 'localhost',
-	user     : 'root',
-	password : '',
-	database : 'nodelogin'
-});
-*/
-
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(session({
 	secret: 'a7j~2;pY4}s@].np#@x+372',
@@ -23,58 +13,53 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 
-
+/*
+ * Returns:
+ * False  - Not logged in / Login failed
+ * True   - Logged in     / Login successfull
+ */
 app.post('/auth', function(request, response) {
 	var username = request.body.username;
 	var password = request.body.password;
 	if (username && password) {
 		if (
-            username === "eis3" &&
-            password === "password"
-        ) {
+      username === "admin7" &&
+			password === "password7"
+    ) {
 			//@ts-ignore
 			request.session.loggedin = true;
 			//@ts-ignore
 			request.session.username = username;
-			response.redirect('/desktop');
+			response.redirect('/');
 		} else {
-			response.send('Incorrect Username and/or Password!');
+			response.redirect('/');
 		}			
 		response.end();
 	} else {
-		response.send('Please enter Username and Password!');
+		//@ts-ignore
+		if (request.session.loggedin) {
+			response.send('true');
+		} else {
+			response.send('false');
+		}
 		response.end();
 	}
 });
 
-app.get('/desktop', function(request, response) {
-	//@ts-ignore
-	if (request.session.loggedin) {
-		response.send('Logged in!');
-        // response.sendFile(path.join(__dirname + '/desktop.html'));
-	} else {
-        response.redirect('/');
-	}
+app.post('/ping', function(request, response) {
+	response.send('pong');
 	response.end();
-});
+})
 
 app.use(function(req, res, next){
     res.status(404);
-  
-    // respond with html page
     if (req.accepts('html')) {
-      res.send("404: Couldn't find "+ req.url);
-      return;
+      res.send("404: Couldn't find "+ req.url);return;
     }
-  
-    // respond with json
     if (req.accepts('json')) {
-      res.send({ error: 'Not found' });
-      return;
+      res.send({ error: 'Not found' });return;
     }
-  
-    // default to plain-text. send()
     res.type('txt').send('Not found');
   });
 
-app.listen(process.env.PORT || 80);
+app.listen(80, '192.168.0.25'); // User your own IPV4 Address

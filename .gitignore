@@ -10,8 +10,9 @@
 
 # production
 /build
-/server.js
 /src/*.d.ts
+/server/*.js
+/server.js
 
 # misc
 .DS_Store

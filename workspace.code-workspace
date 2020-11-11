@@ -6,9 +6,11 @@
 	],
 	"settings": {
 		"files.exclude": {
-			"react/node_modules/": true,
-			"react/src/*.d.ts": true,
-			"react/server.js": true,
+			"node_modules/": true,
+			"build": true,
+			"src/*.d.ts": true,
+			"src/*.js": true,
+			"server.js": true,
 		},
 	}
 }
